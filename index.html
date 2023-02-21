@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEOPLE DATA</title>
+    <link rel="stylesheet" href="style.css">
+   
+</head>
+ <body>
+         <div class="container">
+       <h1 >PEOPLE DATA</h1> 
+         <button class="next" id="nextbutton" onclick="next()"> Next Person</button>
+        </div>
+         <table id='table'>
+            <!-- HEADING FORMATION -->
+            <tr >
+         </tr>
+            <tbody id="data-output">
+                <!-- Prodcuts from javascript file in here. -->
+             </tbody>
+         </table>
+
+  <script>
+
+display();
+var lastCount =0;
+var dataCount;
+
+function next(){
+   
+ lastCount= lastCount+1;
+
+ fetch("data.json")
+.then(function(response){
+    return response.json();
+   
+})
+
+.then(function(data){
+dataCount=data.length;
+})
+if (  lastCount >= dataCount){
+    alert("No more people");
+  
+   
+}
+else{
+    display();
+    
+}
+
+}
+
+function display(){
+
+
+fetch("data.json")
+.then(function(response){
+   return response.json();
+})
+
+
+
+.then(function(data){
+   let placeholder = document.querySelector("#data-output");
+   let out = "";
+ 
+   for(let i=lastCount; i<=lastCount;i++){
+      out += `
+      <tr >
+          
+           <td id = "number" rowspan='2'> ${i+1} </td>
+           <td class="detail"> ${data[i].name} </td>
+           
+     </tr>
+     <tr>
+         <td class="detail"> ${data[i].location}</td>
+     </tr>
+          `;
+   }
+
+   placeholder.innerHTML = out;
+});
+}
+  </script>
+ 
+    </body>
+
+</html>
